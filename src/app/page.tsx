@@ -1,11 +1,11 @@
-import Image from 'next/image'
 
+import { Toaster } from 'react-hot-toast';
 import TriggerGenerator from './components/TriggerGenerator'
 export default function Home() {
   return (
     <main>
-       <h1>Hello World</h1>
        <TriggerGenerator />
+       <Toaster position="top-right" />
     </main>
   )
 }
