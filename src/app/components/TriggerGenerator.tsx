@@ -19,12 +19,12 @@ const TriggerGenerator = () => {
 
     const [loading, setLoading] = useState(true);
 
-    const onSuccess = (triggerType) => {
+    const onSuccess = (triggerType: string) => {
         toast.success(`Trigger initiated: ${triggerType}`);
         setLoading(false);
     };
 
-    const onError = (triggerType, errorMessage) => {
+    const onError = (triggerType: string, errorMessage: string) => {
         toast.error(`Trigger initiation failed (${triggerType}): ${errorMessage}`);
         setLoading(false);
     };
