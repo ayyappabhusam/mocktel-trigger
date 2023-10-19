@@ -24,7 +24,11 @@ const DataExpiryTrigger: React.FC<DataExpiryTriggerProps> = ({
     try {
       const { email, phone, first_name, last_name, data_pack_expiry_duration } = userData;
 
-      if (email || phone) {
+      if (!(email || phone)) {
+        toast.error("Either Email or Phone is required.")
+      } else if(!data_pack_expiry_duration) {
+        toast.error("Number of pack expiry days is required.")
+      } else {
         const event_Category = 'MOCKTEL_DATA_PACK_ALERT';
         const event_Action = 'MOCKTEL_DATA_PACK_ALERT';
         const event_Label = 'MOCKTEL_DATA_PACK_ALERT';
@@ -41,12 +45,12 @@ const DataExpiryTrigger: React.FC<DataExpiryTriggerProps> = ({
             eventlabel: event_Label,
             event_type: event_Type,
             contact_variables: {
-              'First Name': first_name,
-              'Last Name': last_name,
-              contactcode: '91',
-              phone: phone,
-              email: email,
-              data_pack_expiry_duration: data_pack_expiry_duration,
+              "First Name": localStorage.getItem('first_name'),
+              "Last Name": localStorage.getItem('last_name'),
+              "contactcode": "91",
+              "phone": localStorage.getItem('phone'),
+              "email": localStorage.getItem('email'),
+              "data_pack_expiry_duration": data_pack_expiry_duration,
             },
           },
         };
@@ -67,8 +71,6 @@ const DataExpiryTrigger: React.FC<DataExpiryTriggerProps> = ({
         } else {
           onError('Data Pack Expiry Alert', 'Form submission failed.');
         }
-      } else {
-        toast.error('Either Email or Phone is required.');
       }
     } catch (error) {
       onError(triggerType, `Error occurred during form submission: ${error}`);
