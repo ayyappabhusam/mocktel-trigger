@@ -12,6 +12,7 @@ interface DataExpiryTriggerProps {
   };
   onSuccess: (triggerType: string) => void;
   onError: (triggerType: string, errorMessage: string) => void;
+  onResetUserData: () => void;
 }
 
 const DataExpiryTrigger: React.FC<DataExpiryTriggerProps> = ({
@@ -19,15 +20,16 @@ const DataExpiryTrigger: React.FC<DataExpiryTriggerProps> = ({
   onSuccess,
   onError,
   triggerType,
+  onResetUserData,
 }) => {
   const handleApiCall = async () => {
     try {
       const { email, phone, first_name, last_name, data_pack_expiry_duration } = userData;
 
       if (!(email || phone)) {
-        toast.error("Either Email or Phone is required.", {duration:5000, style:{padding:"30px"}})
-      } else if(!data_pack_expiry_duration) {
-        toast.error("Number of pack expiry days is required.", {duration:5000, style:{padding:"30px"}})
+        toast.error("Either Email or Phone is required.", { duration: 5000, style: { padding: "30px" } });
+      } else if (!data_pack_expiry_duration) {
+        toast.error("Number of pack expiry days is required.", { duration: 5000, style: { padding: "30px" } });
       } else {
         const event_Category = 'MOCKTEL_DATA_PACK_ALERT';
         const event_Action = 'MOCKTEL_DATA_PACK_ALERT';
@@ -68,6 +70,7 @@ const DataExpiryTrigger: React.FC<DataExpiryTriggerProps> = ({
 
         if (response.ok) {
           onSuccess('Data Pack Expiry Alert');
+          onResetUserData();
         } else {
           onError('Data Pack Expiry Alert', 'Trigger Initiation Failed');
         }

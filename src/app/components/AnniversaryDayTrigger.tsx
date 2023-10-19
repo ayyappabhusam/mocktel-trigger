@@ -12,16 +12,17 @@ interface AnniversaryDayTriggerProps {
   };
   onSuccess: (triggerType: string) => void;
   onError: (triggerType: string, errorMessage: string) => void;
+  onResetUserData: () => void;
 }
 
 function formatDateToMMDDYYYY(date: Date) {
     const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Ensure two digits for month
-    const day = date.getDate().toString().padStart(2, '0'); // Ensure two digits for day
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+    const day = date.getDate().toString().padStart(2, '0'); 
     return `${month}-${day}-${year}`;
   }
 
-const AnniversaryDayTrigger: React.FC<AnniversaryDayTriggerProps> = ({ userData, onSuccess, onError, triggerType }) => {
+const AnniversaryDayTrigger: React.FC<AnniversaryDayTriggerProps> = ({ userData, onSuccess, onError, triggerType, onResetUserData }) => {
   const handleApiCall = async () => {
     try {
       const { email, phone, first_name, last_name, anniversary_date} = userData;
@@ -67,6 +68,7 @@ const AnniversaryDayTrigger: React.FC<AnniversaryDayTriggerProps> = ({ userData,
 
         if (response.ok) {
           onSuccess('Anniversary Day Alert');
+          onResetUserData();
         } else {
           onError('Anniversary Day Alert', 'Trigger Initiation Failed');
         }

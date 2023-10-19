@@ -12,9 +12,10 @@ interface DailyPickerTriggerProps {
   };
   onSuccess: (triggerType: string) => void;
   onError: (triggerType: string, errorMessage: string) => void;
+  onResetUserData: () => void;
 }
 
-const DailyPickerTrigger: React.FC<DailyPickerTriggerProps> = ({ userData, onSuccess, onError, triggerType, }) => {
+const DailyPickerTrigger: React.FC<DailyPickerTriggerProps> = ({ userData, onSuccess, onError, triggerType,onResetUserData }) => {
   const handleApiCall = async () => {
     try {
       const { email, phone, first_name, last_name, notification_day } = userData;
@@ -59,6 +60,7 @@ const DailyPickerTrigger: React.FC<DailyPickerTriggerProps> = ({ userData, onSuc
 
         if (response.ok) {
           onSuccess('Daily Alert');
+          onResetUserData();
         } else {
           onError('Daily Alert', 'Trigger Initiation Failed');
         }

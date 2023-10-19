@@ -12,9 +12,10 @@ interface MissedCallTriggerProps {
   };
   onSuccess: (triggerType: string) => void;
   onError: (triggerType: string, errorMessage: string) => void;
+  onResetUserData: () => void;
 }
 
-const MissedCallTrigger: React.FC<MissedCallTriggerProps> = ({ userData, onSuccess, onError, triggerType }) => {
+const MissedCallTrigger: React.FC<MissedCallTriggerProps> = ({ userData, onSuccess, onError, triggerType,onResetUserData }) => {
   const handleApiCall = async () => {
     try {
       const {
@@ -65,6 +66,7 @@ const MissedCallTrigger: React.FC<MissedCallTriggerProps> = ({ userData, onSucce
 
         if (response.ok) {
           onSuccess('Missed call Alert');
+          onResetUserData();
         } else {
           onError('Missed call Alert', 'Trigger Initiation Failed');
         }

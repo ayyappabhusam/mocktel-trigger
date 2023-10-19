@@ -12,9 +12,10 @@ interface LowBalanceTriggerProps {
   };
   onSuccess: (triggerType: string) => void;
   onError: (triggerType: string, errorMessage: string) => void;
+  onResetUserData: () => void;
 }
 
-const LowBalanceTrigger: React.FC<LowBalanceTriggerProps> = ({ userData, onSuccess, onError, triggerType }) => {
+const LowBalanceTrigger: React.FC<LowBalanceTriggerProps> = ({ userData, onSuccess, onError, triggerType,onResetUserData }) => {
   const handleApiCall = async () => {
     try {
       const { email, phone, first_name, last_name, balance } = userData;
@@ -59,6 +60,7 @@ const LowBalanceTrigger: React.FC<LowBalanceTriggerProps> = ({ userData, onSucce
 
         if (response.ok) {
           onSuccess('Low Balance Alert');
+          onResetUserData();
         } else {
           onError('Low Balance Alert', 'Trigger Initiation Failed');
         }

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import './TriggerGenerator.css';
 import DatePicker from 'react-datepicker';
@@ -9,7 +9,6 @@ import MissedCallTrigger from './MissedCallTrigger';
 import DataExpiryTrigger from './DataExpiryTrigger';
 import DailyPickerTrigger from './DailyPickerTrigger';
 import AnniversaryDayTrigger from './AnniversaryDayTrigger';
-import { FiCalendar } from 'react-icons/fi';
 
 interface User {
     email: string;
@@ -48,7 +47,31 @@ const TriggerGenerator = () => {
         setLoading(false);
     };
 
-    const notificationDayInputRef = useRef(null);
+    useEffect(() => {
+        const storedFirstName = localStorage.getItem('first_name') || '';
+        const storedLastName = localStorage.getItem('last_name') || '';
+        const storedEmail = localStorage.getItem('email') || '';
+        const storedPhone = localStorage.getItem('phone') || '';
+    
+        setUser((prevUser) => ({
+          ...prevUser,
+          first_name: storedFirstName,
+          last_name: storedLastName,
+          email: storedEmail,
+          phone: storedPhone,
+        }));
+      }, []);
+
+    const resetUserData = () => {
+        setUser((prevUser) => ({
+            ...prevUser,
+            balance: '',
+            data_pack_expiry_duration: '',
+            missed_call_from: '',
+            notification_day: '',
+            anniversary_date: null,
+        }));
+    }
 
     return (
         <div>
@@ -150,6 +173,7 @@ const TriggerGenerator = () => {
                             userData={user}
                             onSuccess={onSuccess}
                             onError={onError}
+                            onResetUserData={resetUserData}
                         />
                     </div>
                 </div>
@@ -165,7 +189,7 @@ const TriggerGenerator = () => {
                             value={user.missed_call_from}
                             onChange={(e) =>  {const trimmedValue = e.target.value.trim(); 
                                 setUser({ ...user, missed_call_from: trimmedValue });
-                                localStorage.setItem('missed_call_from', trimmedValue);}}
+                            }}
                             className='input'
                             style={{ marginBottom: "20px" }}
                         />
@@ -174,6 +198,7 @@ const TriggerGenerator = () => {
                             userData={user}
                             onSuccess={onSuccess}
                             onError={onError}
+                            onResetUserData={resetUserData}
                         />
                     </div>
                 </div>
@@ -196,6 +221,7 @@ const TriggerGenerator = () => {
                             userData={user}
                             onSuccess={onSuccess}
                             onError={onError}
+                            onResetUserData={resetUserData}
                         />
                     </div>
                 </div>
@@ -221,6 +247,7 @@ const TriggerGenerator = () => {
                             userData={user}
                             onSuccess={onSuccess}
                             onError={onError}
+                            onResetUserData={resetUserData}
                         />
                     </div>
                     
@@ -232,7 +259,6 @@ const TriggerGenerator = () => {
                     <div className='input-fields'>
                         <label style={{ marginLeft: "-34px" }}>Pick a day </label>
                         <select
-                            ref={notificationDayInputRef}
                             id="notification_day"
                             className='input'
                             value={user.notification_day}
@@ -254,6 +280,7 @@ const TriggerGenerator = () => {
                             userData={user}
                             onSuccess={onSuccess}
                             onError={onError}
+                            onResetUserData={resetUserData}
                         />
                     </div>
                 </div>
