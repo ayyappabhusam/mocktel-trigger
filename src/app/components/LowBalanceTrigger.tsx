@@ -20,9 +20,9 @@ const LowBalanceTrigger: React.FC<LowBalanceTriggerProps> = ({ userData, onSucce
       const { email, phone, first_name, last_name, balance } = userData;
 
       if (!(email || phone)) {
-        toast.error('Either Email or Phone is required.');
+        toast.error('Either Email or Phone is required.', {duration:5000, style:{padding:"30px"}});
       } else if (!balance) {
-        toast.error('Balance is required.');
+        toast.error('Balance is required.', {duration:5000, style:{padding:"30px"}});
       } else {
         const event_Category = 'MOCKTEL_LOW_BALANCE_ALERT';
         const event_Action = 'MOCKTEL_LOW_BALANCE_ALERT';
@@ -60,17 +60,17 @@ const LowBalanceTrigger: React.FC<LowBalanceTriggerProps> = ({ userData, onSucce
         if (response.ok) {
           onSuccess('Low Balance Alert');
         } else {
-          onError('Low Balance Alert', 'Form submission failed.');
+          onError('Low Balance Alert', 'Trigger Initiation Failed');
         }
       }
     } catch (error) {
-      onError(triggerType, `Error occurred during form submission: ${error}`);
+      onError(triggerType, `Error occurred during Trigger Initiation: ${error}`);
     }
   };
 
   return (
     <button className='button' style={{ marginLeft: "243px" }} onClick={handleApiCall}>
-      Initiate the trigger
+      Initiate trigger
     </button>
   );
 };

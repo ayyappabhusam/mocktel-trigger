@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main>
        <TriggerGenerator />
-       <Toaster position="top-right" />
+       <Toaster position="top-center"/>
     </main>
   )
 }

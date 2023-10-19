@@ -37,3 +37,9 @@
     background-color: #f0f0f0;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
+
+.input-date-picker {
+    margin-left: 10px;
+    padding: 8px 16px;
+    margin-bottom: 20px;
+}

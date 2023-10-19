@@ -1,44 +1,38 @@
 import React from 'react';
 import { toast } from 'react-hot-toast';
 
-interface MissedCallTriggerProps {
+interface DailyPickerTriggerProps {
   triggerType: string;
   userData: {
     email: string;
     phone: string;
     first_name: string;
     last_name: string;
-    missed_call_from: string;
+    notification_day: string;
   };
   onSuccess: (triggerType: string) => void;
   onError: (triggerType: string, errorMessage: string) => void;
 }
 
-const MissedCallTrigger: React.FC<MissedCallTriggerProps> = ({ userData, onSuccess, onError, triggerType }) => {
+const DailyPickerTrigger: React.FC<DailyPickerTriggerProps> = ({ userData, onSuccess, onError, triggerType, }) => {
   const handleApiCall = async () => {
     try {
-      const {
-        email,
-        phone,
-        first_name,
-        last_name,
-        missed_call_from,
-      } = userData;
+      const { email, phone, first_name, last_name, notification_day } = userData;
 
       if (!(email || phone)) {
-        toast.error('Either Email or Phone is required.', {duration:5000, style:{padding:"30px"}});
-      } else if (!missed_call_from) {
-        toast.error('Missed Call Number is required.', {duration:5000, style:{padding:"30px"}});
+        toast.error('Either Email or Phone is required.', { duration: 5000, style: { padding: "30px" } });
+      } else if (!notification_day) {
+        toast.error('Pick a Day.', { duration: 5000, style: { padding: "30px" } });
       } else {
-        const event_Category = 'MOCKTEL_MISSED_CALL_ALERT';
-        const event_Action = 'MOCKTEL_MISSED_CALL_ALERT';
-        const event_Label = 'MOCKTEL_MISSED_CALL_ALERT';
+        const event_Category = 'MOCKTEL_DAILY_NOTIFICATION';
+        const event_Action = 'MOCKTEL_DAILY_NOTIFICATION';
+        const event_Label = 'MOCKTEL_DAILY_NOTIFICATION';
         const event_Type = 'web_push';
 
         const requestBody = {
           websiteid: 'c22f66b0-fba7-11ed-b4b5-c9744cec19b9',
           web_subs_id: 'c22f66b0-fba7-11ed-b4b5-c9744cec19b9',
-          authkey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbnRlcnByaXNlX2lkIjo2MDEsImlhdCI6MTY4NzM2MDQyMX0.-SJjlDL2kRhYSVsHQAmelmxoFBW4BPAHKoYJKxJyJwY',
+          authkey: 'your_auth_key', 
           event: {
             eventcategory: event_Category,
             eventaction: event_Action,
@@ -50,7 +44,7 @@ const MissedCallTrigger: React.FC<MissedCallTriggerProps> = ({ userData, onSucce
               "contactcode": "91",
               "phone": localStorage.getItem('phone'),
               "email": localStorage.getItem('email'),
-              "missed_call_from": missed_call_from
+              "notification_day": notification_day,
             },
           },
         };
@@ -64,9 +58,9 @@ const MissedCallTrigger: React.FC<MissedCallTriggerProps> = ({ userData, onSucce
         });
 
         if (response.ok) {
-          onSuccess('Missed call Alert');
+          onSuccess('Daily Alert');
         } else {
-          onError('Missed call Alert', 'Trigger Initiation Failed');
+          onError('Daily Alert', 'Trigger Initiation Failed');
         }
       }
     } catch (error) {
@@ -75,8 +69,10 @@ const MissedCallTrigger: React.FC<MissedCallTriggerProps> = ({ userData, onSucce
   };
 
   return (
-    <button className='button' style={{ marginLeft: "88px" }} onClick={handleApiCall}>Initiate trigger</button>
+    <button className='button' style={{ marginLeft: "176px" }} onClick={handleApiCall}>
+      Initiate trigger
+    </button>
   );
 };
 
-export default MissedCallTrigger;
+export default DailyPickerTrigger;

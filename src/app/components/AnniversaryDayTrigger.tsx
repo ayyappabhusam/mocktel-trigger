@@ -1,38 +1,40 @@
 import React from 'react';
 import { toast } from 'react-hot-toast';
 
-interface MissedCallTriggerProps {
+interface AnniversaryDayTriggerProps {
   triggerType: string;
   userData: {
     email: string;
     phone: string;
     first_name: string;
     last_name: string;
-    missed_call_from: string;
+    anniversary_date: Date | null;
   };
   onSuccess: (triggerType: string) => void;
   onError: (triggerType: string, errorMessage: string) => void;
 }
 
-const MissedCallTrigger: React.FC<MissedCallTriggerProps> = ({ userData, onSuccess, onError, triggerType }) => {
+function formatDateToMMDDYYYY(date: Date) {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Ensure two digits for month
+    const day = date.getDate().toString().padStart(2, '0'); // Ensure two digits for day
+    return `${month}-${day}-${year}`;
+  }
+
+const AnniversaryDayTrigger: React.FC<AnniversaryDayTriggerProps> = ({ userData, onSuccess, onError, triggerType }) => {
   const handleApiCall = async () => {
     try {
-      const {
-        email,
-        phone,
-        first_name,
-        last_name,
-        missed_call_from,
-      } = userData;
+      const { email, phone, first_name, last_name, anniversary_date} = userData;
 
       if (!(email || phone)) {
         toast.error('Either Email or Phone is required.', {duration:5000, style:{padding:"30px"}});
-      } else if (!missed_call_from) {
-        toast.error('Missed Call Number is required.', {duration:5000, style:{padding:"30px"}});
+      } else if (!anniversary_date) {
+        toast.error('Pick a Day.', {duration:5000, style:{padding:"30px"}});
       } else {
-        const event_Category = 'MOCKTEL_MISSED_CALL_ALERT';
-        const event_Action = 'MOCKTEL_MISSED_CALL_ALERT';
-        const event_Label = 'MOCKTEL_MISSED_CALL_ALERT';
+        const formattedAnniversaryDate = anniversary_date instanceof Date ? formatDateToMMDDYYYY(anniversary_date) : '';
+        const event_Category = 'MOCKTEL_ANNIVERSARY_NOTIFICATION';
+        const event_Action = 'MOCKTEL_ANNIVERSARY_NOTIFICATION';
+        const event_Label = 'MOCKTEL_ANNIVERSARY_NOTIFICATION';
         const event_Type = 'web_push';
 
         const requestBody = {
@@ -50,7 +52,7 @@ const MissedCallTrigger: React.FC<MissedCallTriggerProps> = ({ userData, onSucce
               "contactcode": "91",
               "phone": localStorage.getItem('phone'),
               "email": localStorage.getItem('email'),
-              "missed_call_from": missed_call_from
+              "anniversary_date": formattedAnniversaryDate,
             },
           },
         };
@@ -64,9 +66,9 @@ const MissedCallTrigger: React.FC<MissedCallTriggerProps> = ({ userData, onSucce
         });
 
         if (response.ok) {
-          onSuccess('Missed call Alert');
+          onSuccess('Anniversary Day Alert');
         } else {
-          onError('Missed call Alert', 'Trigger Initiation Failed');
+          onError('Anniversary Day Alert', 'Trigger Initiation Failed');
         }
       }
     } catch (error) {
@@ -75,8 +77,10 @@ const MissedCallTrigger: React.FC<MissedCallTriggerProps> = ({ userData, onSucce
   };
 
   return (
-    <button className='button' style={{ marginLeft: "88px" }} onClick={handleApiCall}>Initiate trigger</button>
+    <button className='button' style={{ marginLeft: "390px", position:"relative", top:"-61px" }} onClick={handleApiCall}>
+      Initiate trigger
+    </button>
   );
 };
 
-export default MissedCallTrigger;
+export default AnniversaryDayTrigger;
