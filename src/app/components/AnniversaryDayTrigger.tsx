@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import React from 'react';
 import { toast } from 'react-hot-toast';
 
@@ -79,9 +80,13 @@ const AnniversaryDayTrigger: React.FC<AnniversaryDayTriggerProps> = ({ userData,
   };
 
   return (
-    <button className='button' style={{ marginLeft: "390px", position:"relative", top:"-61px" }} onClick={handleApiCall}>
+    <span style={{paddingLeft:"100px"}}>
+    <Button variant="contained" style={{padding: '10px 20px',
+    fontSize: '16px',
+    backgroundColor: '#1565c0', }} onClick={handleApiCall}>
       Initiate trigger
-    </button>
+    </Button>
+    </span>
   );
 };
 

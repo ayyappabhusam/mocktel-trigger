@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import React from 'react';
 import { toast } from 'react-hot-toast';
 
@@ -71,9 +72,13 @@ const DailyPickerTrigger: React.FC<DailyPickerTriggerProps> = ({ userData, onSuc
   };
 
   return (
-    <button className='button' style={{ marginLeft: "176px" }} onClick={handleApiCall}>
-      Initiate trigger
-    </button>
+    <span style={{paddingLeft:"70px"}}>
+    <Button variant="contained" onClick={handleApiCall}   style={{
+        padding: '10px 20px',
+        fontSize: '16px',
+        backgroundColor: '#1565c0',
+    }} className="text-xs xs:text-base sm:text-xs md:text-lg lg:text-xl xl:text-2xl sm:pl-1 md:pl-4 lg:pl-6 xl:pl-8">Initiate trigger</Button>
+    </span>
   );
 };
 
