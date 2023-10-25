@@ -28,10 +28,21 @@ const AnniversaryDayTrigger: React.FC<AnniversaryDayTriggerProps> = ({ userData,
     try {
       const { email, phone, first_name, last_name, anniversary_date} = userData;
 
-      if (!(email || phone)) {
+      const isEmailValid = email ? /^\S+@\S+\.\S+$/.test(email) : true;
+      const isFirstValid = first_name ? /^[A-Za-z\s]+$/.test(first_name) : true;
+      const isLastValid = last_name ? /^[A-Za-z\s]+$/.test(last_name) : true;
+      
+
+      if (!isEmailValid) {
+          toast.error('Enter a valid email address.', { duration: 5000, style: { padding: "30px" } });
+      } else if (!(email || phone)) {
         toast.error('Either Email or Phone is required.', {duration:5000, style:{padding:"30px"}});
+      } else if (!isFirstValid) {
+          toast.error('First Name should contain only alphabets.', { duration: 5000, style: { padding: "30px" } });
+      } else if (!isLastValid) {
+        toast.error('Last Name should contain only alphabets.', { duration: 5000, style: { padding: "30px" } });
       } else if (!anniversary_date) {
-        toast.error('Pick a Day.', {duration:5000, style:{padding:"30px"}});
+          toast.error('Pick a Date.', { duration: 5000, style: { padding: "30px" } });
       } else {
         const formattedAnniversaryDate = anniversary_date instanceof Date ? formatDateToMMDDYYYY(anniversary_date) : '';
         const event_Category = 'MOCKTEL_ANNIVERSARY_NOTIFICATION';

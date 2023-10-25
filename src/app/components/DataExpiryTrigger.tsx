@@ -27,10 +27,21 @@ const DataExpiryTrigger: React.FC<DataExpiryTriggerProps> = ({
     try {
       const { email, phone, first_name, last_name, data_pack_expiry_duration } = userData;
 
-      if (!(email || phone)) {
-        toast.error("Either Email or Phone is required.", { duration: 5000, style: { padding: "30px" } });
+      const isEmailValid = email ? /^\S+@\S+\.\S+$/.test(email) : true;
+      const isFirstValid = first_name ? /^[A-Za-z\s]+$/.test(first_name) : true;
+      const isLastValid = last_name ? /^[A-Za-z\s]+$/.test(last_name) : true;
+      
+
+      if (!isEmailValid) {
+          toast.error('Enter a valid email address.', { duration: 5000, style: { padding: "30px" } });
+      } else if (!(email || phone)) {
+        toast.error('Either Email or Phone is required.', {duration:5000, style:{padding:"30px"}});
+      } else if (!isFirstValid) {
+          toast.error('First Name should contain only alphabets.', { duration: 5000, style: { padding: "30px" } });
+      } else if (!isLastValid) {
+        toast.error('Last Name should contain only alphabets.', { duration: 5000, style: { padding: "30px" } });
       } else if (!data_pack_expiry_duration) {
-        toast.error("Number of pack expiry days is required.", { duration: 5000, style: { padding: "30px" } });
+          toast.error("Number of pack expiry days is required.", { duration: 5000, style: { padding: "30px" } });
       } else {
         const event_Category = 'MOCKTEL_DATA_PACK_ALERT';
         const event_Action = 'MOCKTEL_DATA_PACK_ALERT';

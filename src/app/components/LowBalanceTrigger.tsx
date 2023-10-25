@@ -21,10 +21,21 @@ const LowBalanceTrigger: React.FC<LowBalanceTriggerProps> = ({ userData, onSucce
     try {
       const { email, phone, first_name, last_name, balance } = userData;
 
-      if (!(email || phone)) {
+      const isEmailValid = email ? /^\S+@\S+\.\S+$/.test(email) : true;
+      const isFirstValid = first_name ? /^[A-Za-z\s]+$/.test(first_name) : true;
+      const isLastValid = last_name ? /^[A-Za-z\s]+$/.test(last_name) : true;
+      
+
+      if (!isEmailValid) {
+          toast.error('Enter a valid email address.', { duration: 5000, style: { padding: "30px" } });
+      } else if (!(email || phone)) {
         toast.error('Either Email or Phone is required.', {duration:5000, style:{padding:"30px"}});
+      } else if (!isFirstValid) {
+          toast.error('First Name should contain only alphabets.', { duration: 5000, style: { padding: "30px" } });
+      } else if (!isLastValid) {
+        toast.error('Last Name should contain only alphabets.', { duration: 5000, style: { padding: "30px" } });
       } else if (!balance) {
-        toast.error('Balance is required.', {duration:5000, style:{padding:"30px"}});
+          toast.error("Balance is required.", { duration: 5000, style: { padding: "30px" } });
       } else {
         const event_Category = 'MOCKTEL_LOW_BALANCE_ALERT';
         const event_Action = 'MOCKTEL_LOW_BALANCE_ALERT';

@@ -29,11 +29,21 @@ const MissedCallTrigger: React.FC<MissedCallTriggerProps> = ({ userData, onSucce
        
       } = userData;
 
-      if (!(email || phone)) {
-        toast.error('Either Email or Phone is required.', {duration:5000, style:{padding:"30px"}});
-      } else if (!missed_call_from) {
-        toast.error('Missed Call Number is required.', {duration:5000, style:{padding:"30px"}});
-      } else {
+      const isEmailValid = email ? /^\S+@\S+\.\S+$/.test(email) : true;
+      const isFirstValid = first_name ? /^[A-Za-z\s]+$/.test(first_name) : true;
+      const isLastValid = last_name ? /^[A-Za-z\s]+$/.test(last_name) : true;
+
+      if (!isEmailValid) {
+        toast.error('Enter a valid email address.', { duration: 5000, style: { padding: "30px" } });
+    } else if (!(email || phone)) {
+      toast.error('Either Email or Phone is required.', {duration:5000, style:{padding:"30px"}});
+    } else if (!isFirstValid) {
+        toast.error('First Name should contain only alphabets.', { duration: 5000, style: { padding: "30px" } });
+    } else if (!isLastValid) {
+      toast.error('Last Name should contain only alphabets.', { duration: 5000, style: { padding: "30px" } });
+    } else if (!missed_call_from) {
+        toast.error("Balance is required.", { duration: 5000, style: { padding: "30px" } });
+    } else {
         const event_Category = 'MOCKTEL_MISSED_CALL_ALERT';
         const event_Action = 'MOCKTEL_MISSED_CALL_ALERT';
         const event_Label = 'MOCKTEL_MISSED_CALL_ALERT';

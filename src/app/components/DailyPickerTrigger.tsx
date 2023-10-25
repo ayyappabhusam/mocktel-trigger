@@ -21,10 +21,21 @@ const DailyPickerTrigger: React.FC<DailyPickerTriggerProps> = ({ userData, onSuc
     try {
       const { email, phone, first_name, last_name, notification_day } = userData;
 
-      if (!(email || phone)) {
-        toast.error('Either Email or Phone is required.', { duration: 5000, style: { padding: "30px" } });
+      const isEmailValid = email ? /^\S+@\S+\.\S+$/.test(email) : true;
+      const isFirstValid = first_name ? /^[A-Za-z\s]+$/.test(first_name) : true;
+      const isLastValid = last_name ? /^[A-Za-z\s]+$/.test(last_name) : true;
+      
+
+      if (!isEmailValid) {
+          toast.error('Enter a valid email address.', { duration: 5000, style: { padding: "30px" } });
+      } else if (!(email || phone)) {
+        toast.error('Either Email or Phone is required.', {duration:5000, style:{padding:"30px"}});
+      } else if (!isFirstValid) {
+          toast.error('First Name should contain only alphabets.', { duration: 5000, style: { padding: "30px" } });
+      } else if (!isLastValid) {
+        toast.error('Last Name should contain only alphabets.', { duration: 5000, style: { padding: "30px" } });
       } else if (!notification_day) {
-        toast.error('Pick a Day.', { duration: 5000, style: { padding: "30px" } });
+          toast.error('Pick a Day.', { duration: 5000, style: { padding: "30px" } });
       } else {
         const event_Category = 'MOCKTEL_DAILY_NOTIFICATION';
         const event_Action = 'MOCKTEL_DAILY_NOTIFICATION';
@@ -40,7 +51,7 @@ const DailyPickerTrigger: React.FC<DailyPickerTriggerProps> = ({ userData, onSuc
         const requestBody = {
           websiteid: 'c22f66b0-fba7-11ed-b4b5-c9744cec19b9',
           web_subs_id: 'c22f66b0-fba7-11ed-b4b5-c9744cec19b9',
-          authkey: 'your_auth_key', 
+          authkey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbnRlcnByaXNlX2lkIjo2MDEsImlhdCI6MTY4NzM2MDQyMX0.-SJjlDL2kRhYSVsHQAmelmxoFBW4BPAHKoYJKxJyJwY', 
           event: {
             eventcategory: event_Category,
             eventaction: event_Action,
