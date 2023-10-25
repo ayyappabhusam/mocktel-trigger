@@ -29,9 +29,6 @@ const MissedCallTrigger: React.FC<MissedCallTriggerProps> = ({ userData, onSucce
        
       } = userData;
 
-      const countryCodeMatch = missed_call_from.match(/^\+(\d+)/);
-      const countryCode = countryCodeMatch ? countryCodeMatch[1] : '';
-
       if (!(email || phone)) {
         toast.error('Either Email or Phone is required.', {duration:5000, style:{padding:"30px"}});
       } else if (!missed_call_from) {
@@ -42,6 +39,10 @@ const MissedCallTrigger: React.FC<MissedCallTriggerProps> = ({ userData, onSucce
         const event_Label = 'MOCKTEL_MISSED_CALL_ALERT';
         const event_Type = 'web_push';
        
+        var PhoneString = userData.phone
+        var countryCode = PhoneString.split(" ")[0]
+        var phoneNumber = PhoneString.split(" ").slice(1).join(" ")
+        countryCode = countryCode.substring(1)
 
         const requestBody = {
           websiteid: 'c22f66b0-fba7-11ed-b4b5-c9744cec19b9',
@@ -56,7 +57,7 @@ const MissedCallTrigger: React.FC<MissedCallTriggerProps> = ({ userData, onSucce
               "First Name": localStorage.getItem('first_name'),
               "Last Name": localStorage.getItem('last_name'),
               "contactcode": countryCode,
-              "phone": localStorage.getItem('phone'),
+              "phone": phoneNumber,
               "email": localStorage.getItem('email'),
               "missed_call_from": missed_call_from
             },

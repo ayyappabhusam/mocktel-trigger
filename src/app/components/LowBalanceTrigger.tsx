@@ -30,7 +30,12 @@ const LowBalanceTrigger: React.FC<LowBalanceTriggerProps> = ({ userData, onSucce
         const event_Action = 'MOCKTEL_LOW_BALANCE_ALERT';
         const event_Label = 'MOCKTEL_LOW_BALANCE_ALERT';
         const event_Type = 'web_push';
-
+       
+        var PhoneString = userData.phone
+        var countryCode = PhoneString.split(" ")[0]
+        var phoneNumber = PhoneString.split(" ").slice(1).join(" ")
+        countryCode = countryCode.substring(1)
+    
         const requestBody = {
           websiteid: 'c22f66b0-fba7-11ed-b4b5-c9744cec19b9',
           web_subs_id: 'c22f66b0-fba7-11ed-b4b5-c9744cec19b9',
@@ -43,8 +48,8 @@ const LowBalanceTrigger: React.FC<LowBalanceTriggerProps> = ({ userData, onSucce
             contact_variables: {
               "First Name": localStorage.getItem('first_name'),
               "Last Name": localStorage.getItem('last_name'),
-              "contactcode": "91",
-              "phone": localStorage.getItem('phone'),
+              "contactcode": countryCode,
+              "phone": phoneNumber,
               "email": localStorage.getItem('email'),
               "balance": balance,
             },

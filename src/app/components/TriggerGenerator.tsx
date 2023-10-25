@@ -158,12 +158,7 @@ const TriggerGenerator = () => {
                             placeholder='9999999999'
                             value={user.missed_call_from}
                             defaultCountry='IN'
-                            // onChange={(phone, meta) => {
-                            //     const trimmedValue = phone.trim();
-                            //     const countryCode = meta.country ? meta.country.dialCode : '';
-                            //     setUser({ ...user, missed_call_from: trimmedValue });
-                            //     localStorage.setItem('countryCode', countryCode);
-                            //   }}
+                            onChange={(e) => setUser({ ...user, missed_call_from: e })}
                             className='text-sm sm:text-base relative w-1/3 border rounded placeholder-gray-400 focus:border-indigo-400 focus:outline-none py-3 pr-2 pl-4'
                             inputProps={{
                                 style: {
@@ -370,7 +365,10 @@ const TriggerGenerator = () => {
                                     defaultCountry='IN'
                                     className="text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-indigo-400 focus:outline-none"
                                     value={user.phone}
-                                    onChange={handlePhoneChange}
+                                    onChange={(e) => {
+                                        setUser({ ...user, phone: e });
+                                        localStorage.setItem('phone', e);
+                                    }}
                                     inputProps={{
                                         style: {
                                             backgroundColor: 'white',

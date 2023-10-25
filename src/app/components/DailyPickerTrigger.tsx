@@ -31,6 +31,11 @@ const DailyPickerTrigger: React.FC<DailyPickerTriggerProps> = ({ userData, onSuc
         const event_Label = 'MOCKTEL_DAILY_NOTIFICATION';
         const event_Type = 'web_push';
 
+        var PhoneString = userData.phone
+        var countryCode = PhoneString.split(" ")[0]
+        var phoneNumber = PhoneString.split(" ").slice(1).join(" ")
+        countryCode = countryCode.substring(1)
+
         const requestBody = {
           websiteid: 'c22f66b0-fba7-11ed-b4b5-c9744cec19b9',
           web_subs_id: 'c22f66b0-fba7-11ed-b4b5-c9744cec19b9',
@@ -43,8 +48,8 @@ const DailyPickerTrigger: React.FC<DailyPickerTriggerProps> = ({ userData, onSuc
             contact_variables: {
               "First Name": localStorage.getItem('first_name'),
               "Last Name": localStorage.getItem('last_name'),
-              "contactcode": "91",
-              "phone": localStorage.getItem('phone'),
+              "contactcode": countryCode,
+              "phone": phoneNumber,
               "email": localStorage.getItem('email'),
               "notification_day": notification_day,
             },
