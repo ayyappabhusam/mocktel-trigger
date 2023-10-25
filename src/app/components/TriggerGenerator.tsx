@@ -12,7 +12,6 @@ import DailyPickerTrigger from './DailyPickerTrigger';
 import AnniversaryDayTrigger from './AnniversaryDayTrigger';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-
 interface User {
     email: string;
     phone: string;
@@ -42,18 +41,7 @@ const TriggerGenerator = () => {
 
     const [loading, setLoading] = useState(true);
     const [selectedOption, setSelectedOption] = useState('');
-    const [selectedCountryCode, setSelectedCountryCode] = useState('');
 
-    const handlePhoneChange = (phone: string, info: MuiTelInputInfo) => {
-        const trimmedValue = phone.trim();
-        // const selectedCountry = info.selected;
-        // const countryCode = selectedCountry ? selectedCountry.dialCode : '';
-        localStorage.setItem('phone', trimmedValue);
-        // localStorage.setItem('countryCode', countryCode);
-        setUser({ ...user, phone: trimmedValue, 
-            // countryCode: countryCode
-         });
-    };
     
 
     const openComponent = (option: string) => {
@@ -75,6 +63,8 @@ const TriggerGenerator = () => {
         setLoading(false);
 
     };
+
+
 
     useEffect(() => {
         const storedFirstName = localStorage.getItem('first_name') || '';
@@ -155,15 +145,16 @@ const TriggerGenerator = () => {
                         <div className="flex items-center ml-2 sm:ml-4 md:ml-6 lg:ml-8 xl:ml-10">
                         <label className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">Missed call from:</label>
                         <MuiTelInput
-                            placeholder='9999999999'
+                            placeholder='+91 9876543210'
                             value={user.missed_call_from}
                             defaultCountry='IN'
                             onChange={(e) => setUser({ ...user, missed_call_from: e })}
-                            className='text-sm sm:text-base relative w-1/3 border rounded placeholder-gray-400 focus:border-indigo-400 focus:outline-none py-3 pr-2 pl-4'
+                            className='text-sm sm:text-base relative w-full xs:w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 border rounded placeholder-gray-400 focus:border-indigo-400 focus:outline-none py-3 pr-2 pl-4'
                             inputProps={{
                                 style: {
                                     backgroundColor: 'white',
                                     height: '15px',
+                                     width: '100%' 
                                 }
                             }}
                         />
@@ -361,7 +352,7 @@ const TriggerGenerator = () => {
                             <label htmlFor="phone" className="mb-2 sm:text-md tracking-wide text-black">Phone:</label>
                             <div className="relative">
                                 <MuiTelInput
-                                    placeholder='9999999999'
+                                    placeholder='+91 9876543210'
                                     defaultCountry='IN'
                                     className="text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-indigo-400 focus:outline-none"
                                     value={user.phone}

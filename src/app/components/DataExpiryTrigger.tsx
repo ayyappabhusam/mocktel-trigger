@@ -41,7 +41,8 @@ const DataExpiryTrigger: React.FC<DataExpiryTriggerProps> = ({
         var countryCode = PhoneString.split(" ")[0]
         var phoneNumber = PhoneString.split(" ").slice(1).join(" ")
         countryCode = countryCode.substring(1)
-        
+        phoneNumber = phoneNumber.replace(/\s/g, "");
+
         const requestBody = {
           websiteid: 'c22f66b0-fba7-11ed-b4b5-c9744cec19b9',
           web_subs_id: 'c22f66b0-fba7-11ed-b4b5-c9744cec19b9',
@@ -87,11 +88,12 @@ const DataExpiryTrigger: React.FC<DataExpiryTriggerProps> = ({
   };
 
   return (
-    <span style={{paddingLeft:"70px"}}>
+    <span className="xs:pl-4 sm:pl-6 md:pl-8 lg:pl-12 xl:pl-14">
     <Button variant="contained" onClick={handleApiCall}   style={{
         padding: '10px 20px',
         fontSize: '16px',
         backgroundColor: '#1565c0',
+        minWidth: '100px'
     }} className="text-xs xs:text-base sm:text-xs md:text-lg lg:text-xl xl:text-2xl sm:pl-1 md:pl-4 lg:pl-6 xl:pl-8">Initiate trigger</Button>
     </span>
   );
