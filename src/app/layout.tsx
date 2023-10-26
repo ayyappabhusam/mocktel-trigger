@@ -17,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <script type="text/javascript" src="./webpush.js"></script>
         {children}
       </body>
     </html>
