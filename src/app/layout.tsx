@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Script>
+        <Script id="webpush-script" strategy="beforeInteractive">
           {
             `
           var _at = {};
