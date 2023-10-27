@@ -24,7 +24,7 @@ export default function RootLayout({
           var _at = {};
           var u = "//mdm-gcdn.s3.amazonaws.com/non-prod/";
           _at.domain = "mocktel-trigger.netlify.app";
-          _at.idSite = "572ae790-73f7-11ee-8c3f-f108bb81e9d4";
+          _at.idSite = "36f85f40-3c19-11ee-a8a6-955d7af18de5";
 
           (function() {
             var d = document;
